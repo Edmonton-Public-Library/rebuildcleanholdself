@@ -32,11 +32,9 @@ USER=sirsi
 REMOTE=~/Unicorn/EPLwork/anisbet/
 LOCAL=~/projects/rebuildcleanholdshelf/
 APP=rebuildcleanholdshelf.sh
-ARGS=
 
-test:
+test: ${APP}
 	scp ${LOCAL}${APP} ${USER}@${TEST_SERVER}:${REMOTE}
-	ssh ${USER}@${TEST_SERVER} '${REMOTE}${APP} ${ARGS}'
 production: test
 	scp ${LOCAL}${APP} ${USER}@${PRODUCTION_SERVER}:${REMOTE}
 
