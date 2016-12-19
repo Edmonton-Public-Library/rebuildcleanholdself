@@ -115,7 +115,6 @@ printf "collecting item, user data.\n" >&2
 # List should look like this:
 # 31221117114087|21221020649106|26387631
 cat item.user.hold.lst | selitem -iB -oNCSBtly 2>/dev/null | selcallnum -iN -oSD 2>/dev/null | selcatalog -iC -oSt 2>/dev/null | seluser -iB -oBDS 2>/dev/null >raw.clean.lst
-
 if [ ! -s "raw.clean.lst" ]; then
 	printf "** error raw.clean.lst not created.\n" >&2
 	exit 1
@@ -123,11 +122,14 @@ fi
 # Hold Slip|Title|ItemID|ItemType|Pickup Library|Next Pickup User|Current Location|Call num|
 # 21221018486834|Georgetti, Mark|27336299|31221111890872  |JBOOK|JUVGRAPHIC|EPLCSD|J YAN pt.2|Avatar, the last airbender. Smoke and shadow. Part two / Gene Luen Yang, script ; Gurihiru, art ; Michael Heisler, lettering|
 printf "compiling results.\n" >&2
+# Trim the item id. order as per spec above.
 cat raw.clean.lst | pipe.pl -tc3 -oc0,c1,c8,c3,c5,c6,c6,c4,c7 -P >ordered.clean.lst
 if [ ! -s "ordered.clean.lst" ]; then
 	printf "** error ordered.clean.lst not created.\n" >&2
 	exit 1
 fi
+# We duplicated the library as a placeholder for the next user id; now we are going replace it with 'N/A'. We also need to first 4 chars of 
+# the customers' name and the last 4 digits of their card. Then sort.
 cat ordered.clean.lst |  pipe.pl -m'c0:\ -\ __________#,c1:####_,c6:N/A_' -Oc1,c0 -oc1,c2,c3,c4,c5,c6,c7,c8 | pipe.pl -sc0 -P >master.clean.lst
 # 6834 - Geor|Avatar, the last airbender. Smoke and shadow. Part two / Gene Luen Yang, script ; Gurihiru, art ; Michael Heisler, lettering|31221111890872  |JUVGRAPHIC|EPLCSD|N/A|JBOOK|J YAN pt.2|
 # Find all the branches from the policy file and build a list for each branch.
