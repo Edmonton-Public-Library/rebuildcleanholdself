@@ -63,7 +63,8 @@ if [ ! -s "$RECOVER_HIST_FILE" ]; then
 fi
 
 # Function that prints a report for each library.
-# param:  Branch 3 character code.
+# param:  Branch 3 character code in UPPER CASE.
+# param:  master list name - the list of all the compiled data for all branches.
 # return: none - outputs each list.
 print_each_branch_list()
 {

@@ -9,11 +9,29 @@ Instructions for Running:
 Product Description:
 Bash shell script written by Andrew Nisbet for Edmonton Public Library, distributable by the enclosed license.
 
+This script was required when the schedule for the clean hold list was acidendfdtally deleted.
+This script was required when the schedule for the clean hold list was accidentally deleted, 
+then the wrong clean hold list was run that cancelled the holds but didn’t create a hold list 
+report. To fix that I had to go to history logs for the holds that were cancelled when the 
+‘expire available holds’ ran. 
+
+The report compiles to EPL’s format spec for label printing and produces a report for every branch 
+in the policy table. In the case of a closed branch the produced list may be empty.
+
+The script assumes that the information can be recovered today’s history file. If that isn’t the case 
+check the comments in the file and adjust accordingly. Also for an additional check, the time of 
+‘the expire available holds’ report is hard-coded, for the standard time.
+
 Repository Information:
 This product is under version control using Git.
 
 Dependencies:
-None
+1. getpol
+2. pipe.pl
+3. selitem
+4. selcatalog
+5. selcallnum
+6. seluser
 
 Known Issues:
-None
+Does not compute 'Next Pickup User'. Staff will have to check with Workflows to determine this information.
